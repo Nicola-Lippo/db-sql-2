@@ -11,14 +11,14 @@ GROUP BY
 2. Contare gli insegnanti che hanno l'ufficio nello stesso edificio
 SELECT
     `office_address`,
-    COUNT(*) AS `number_teachers`
+    COUNT(`id`) AS `number_teachers`
 FROM
     `teachers`
 GROUP BY
     `office_address`
 *********************
 3. Calcolare la media dei voti di ogni appello d'esame
-//ROUND: Arrotonda un numero a 2 cifre decimali.
+//ROUND: Arrotonda un numero, in numero dopo indica di quanto dopo la ,
 //AVG: Restituisce il valore medio di un'espressione.
 SELECT
     `exam_id`,
@@ -30,13 +30,40 @@ GROUP BY
     `exam_id`
 *********************
 4. Contare quanti corsi di laurea ci sono per ogni dipartimento
-
+SELECT
+    `department_id`,
+    //NO * dentro ()
+    COUNT(`id`) AS `number_courses`
+FROM
+    `degrees`
+GROUP BY
+    `department_id`
+ORDER BY
+    `department_id`
 
 
 /*JOIN*/
 1. Selezionare tutti gli studenti iscritti al Corso di Laurea in Economia
+SELECT
+    `students`.`name`,
+    `students`.`surname`,
+    `degrees`.`name`
+FROM
+    `degrees`
+INNER JOIN `students` ON `degrees`.`id` = `students`.`degree_id`
+WHERE
+    `degrees`.`name` = 'Corso di Laurea in Economia'
 *********************
 2. Selezionare tutti i Corsi di Laurea Magistrale del Dipartimento di Neuroscienze
+SELECT
+    `degrees`.`level`,
+    `departments`.`name`,
+    `degrees`.`name`
+FROM
+    `departments`
+INNER JOIN `degrees` ON `departments`.`id` = `degrees`.`department_id`
+WHERE
+    `departments`.`name` LIKE '%Neuroscienze'
 *********************
 3. Selezionare tutti i corsi in cui insegna Fulvio Amato (id=44)
 *********************
